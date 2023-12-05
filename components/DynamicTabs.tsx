@@ -1,18 +1,15 @@
-
-import { ButtonIcon } from "@radix-ui/react-icons"
 import { Tabs } from "./ui/tabs"
 import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Label } from "@radix-ui/react-label"
 import { Input } from "./ui/input"
-import { Button } from "./ui/button"
 import BrandedButton from "./BrandedButton"
 import CoinGecko from "./icons/CoinGecko"
 import PriceButton from "./PriceButton"
 import ZilStream from "./icons/ZilStream"
 import CryptoRanks from "./icons/CryptoRanks"
 import { formatPrice } from "../utils/utils"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 type Props = {
   bech32Address: string;
@@ -39,16 +36,16 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
   return (
     <Tabs defaultValue="balance" className="w-full max-w-2xl"  onValueChange={handleTabChange}>
 
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 gap-4">
         <TabsTrigger 
           value="balance" 
-          className={selectedTab === "balance" ? "mb-6 py-2 border border-gray-600 rounded-lg" : "mb-6"}
+          className={selectedTab === "balance" ? "mb-6 py-2 border border-gray-600 rounded-lg bg-gray-400" : "mb-6 hover:bg-gray-600 hover:bg-opacity-20 py-2 border border-gray-800 rounded-lg"}
         >
           Get Balance
         </TabsTrigger>
         <TabsTrigger 
           value="price" 
-          className={selectedTab === "price" ? "mb-6 py-2 border border-gray-600 rounded-lg" : "mb-6"}
+          className={selectedTab === "price" ? "mb-6 py-2 border border-gray-600 rounded-lg bg-gray-400" : "mb-6 hover:bg-gray-600 hover:bg-opacity-20 py-2 border border-gray-800 rounded-lg"}
         >
           Price
         </TabsTrigger>

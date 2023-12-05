@@ -141,28 +141,30 @@ const Home: NextPage<Props> = ({ }) => {
   };
 
   return (
-
-    <div className='w-[90%] md:w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
+    <>
       <Head>
         <title>XCademy Price Tracker</title>
         <meta name="description" content="Price Tracker & Address Converter" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Hero />
+      <main className='w-[90%] md:w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
 
-      <DynamicTabs 
-        bech32Address={bech32Address} 
-        base16Address={base16Address} 
-        handleAddressConversion={handleAddressConversion} 
-        fetchBalance={fetchBalance} 
-        prices={prices} 
-        fetchPrice={fetchPrice} 
-      />
+        <Hero />
 
-     <PriceChart data={data} />
+        <DynamicTabs 
+          bech32Address={bech32Address} 
+          base16Address={base16Address} 
+          handleAddressConversion={handleAddressConversion} 
+          fetchBalance={fetchBalance} 
+          prices={prices} 
+          fetchPrice={fetchPrice} 
+        />
 
-    </div>
+      {data && <PriceChart data={data} />}
+
+      </main>
+    </>
   )
 }
 
