@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next'
-import Head from 'next/head' 
+import Head from 'next/head'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto';
-import Toaster from '../components/Toaster';
 import { BrowserProvider, ethers, JsonRpcSigner } from "ethers";
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Card } from '../components/ui/card';
+import Hero from '../components/Hero';
 
 type Props = {}
 
-const Home: NextPage<Props> = ({}) => {
+const Home: NextPage<Props> = ({ }) => {
   const [inputAddress, setInputAddress] = useState('');
   const [bech32Address, setBech32Address] = useState('');
   const [base16Address, setBase16Address] = useState('');
@@ -20,7 +23,7 @@ const Home: NextPage<Props> = ({}) => {
   const [balance, setBalance] = useState<string | null>(null);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const [userAddress, setUserAddress] = useState<string>('');
-  
+
   // Traer el precio de XCAD
   const fetchPrice = async () => {
     try {
@@ -70,7 +73,6 @@ const Home: NextPage<Props> = ({}) => {
   //   }
   // };
 
-
   // Traer el balance del balance del contrato
   const fetchBalance = async (address: string) => {
     if (!address) {
@@ -115,68 +117,70 @@ const Home: NextPage<Props> = ({}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchPrice();
-    }, 120000); 
-    return () => clearInterval(interval); 
-  }, []);  
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
 
   const openToast = (message: string, severity: any = 'info') => {
     setToast({ open: true, message, severity });
-};
+  };
 
   return (
-    
-    <div >
 
-        <div>
-          <nav >
-            <h1 style={{display:"none"}}>XCademy Price Tracker </h1>
-            <img src="https://www.xcademy.com/defc893fd64646d3b86cab2b41ca55a6.png" alt="logo" width="300" height="50" />
-            <h4>XCAD: 0.00</h4>
-          </nav>
-        </div>
+    <div className='w-full mx-auto max-w-7xl h-full text-white flex flex-col items-start  justify-between'>
+      <Head>
+        <title>XCademy Price Tracker</title>
+        <meta name="description" content="Price Tracker & Address Converter" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      
-      <div>
-        <Head>
-          <title>Address Converter</title>
-          <meta name="description" content="Zilliqa Address Converter" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        
-        <div> 
-          <div>
-            <div>
-              <input
-                placeholder='Bech32 Address'
-                value={bech32Address}
-                onChange={(e) => handleAddressConversion(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                placeholder='Hex Address'
-                value={base16Address}
-                disabled
-              />
-            </div>
-          </div>
-        </div>
+      <Hero />
 
-        <div>
-          <div>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full pb-24'>
+        <Card className='max-w-xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
+          <h2 className="text-2xl font-bold tracking-tight text-white">Address:</h2>
+          <Label className='text-gray-200'>Seamlessly check your balance</Label>
+          <Input
+            placeholder='Bech32 Address'
+            value={bech32Address}
+            onChange={(e) => handleAddressConversion(e.target.value)}
+            className='max-w-xl mt-4'
+            type='text'
+          />
+          <h2 className="text-2xl font-bold tracking-tight text-white mt-6">Base16:</h2>
+          <Label className='text-gray-200'>This is your Base16 address</Label>
+          <Input
+            placeholder='Hex Address'
+            value={base16Address}
+            disabled
+            className='max-w-xl mt-4'
+            type='text'
+          />
+
+          <div className='bg-red-500 mt-6 max-w-xl'>
             <button onClick={fetchPrice}>Get CoinGecko Price</button>
             <button onClick={() => fetchBalance(base16Address)}>Get Balance</button>
+
           </div>
-        </div>
+        </Card>
 
-        <Toaster open={toast.open} message={toast.message} severity={toast.severity as any} />
+        <Card className='max-w-xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
+          <h2 className="text-2xl font-bold tracking-tight text-white">XCAD Price:</h2>
+          <Label className='text-gray-200'>XCAD is currently trading at:</Label>
+          <div className='flex-1 flex flex-col items-center justify-center p-4'>
+            <div>
+              {prices.coingecko && <p>Coingecko Price: {prices.coingecko}</p>}
+              {prices.zilStream && <p>ZilStream Price: {prices.zilStream}</p>}
+              {prices.cryptoRank && <p>CryptoRank Price: {prices.cryptoRank}</p>}
+              {prices.average && <p>Average Price: {prices.average}</p>}
+            </div>
 
-        {prices.coingecko && <p>Coingecko Price: {prices.coingecko}</p>}
-        {prices.zilStream && <p>ZilStream Price: {prices.zilStream}</p>}
-        {prices.cryptoRank && <p>CryptoRank Price: {prices.cryptoRank}</p>}
-        {prices.average && <p>Average Price: {prices.average}</p>}
-
-        
+            <div className='bg-red-500 mt-6 max-w-xl'>
+              <button onClick={fetchPrice}>Get CoinGecko Price</button>
+              <button onClick={() => fetchBalance(base16Address)}>Get Balance</button>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   )
