@@ -25,7 +25,7 @@ const Home: NextPage<Props> = ({ }) => {
   const [data, setData] = useState<any[]>([]);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const [userAddress, setUserAddress] = useState<string>('');
-  const [refreshCounter, setRefreshCounter] = useState(10); 
+  const [refreshCounter, setRefreshCounter] = useState(300); 
 
   // Traer el precio de XCAD
   const fetchPrice = async () => {
@@ -145,11 +145,10 @@ const Home: NextPage<Props> = ({ }) => {
 
   useEffect(() => {
     fetchPrice(); 
-
+    // set timer a 5 minutes
     const timer = setTimeout(() => {
       startRefreshTimer();
-    }, 10000);
-
+    }, 300000);
     return () => clearTimeout(timer);
   }, []);
 
