@@ -4,7 +4,7 @@ type Props = {}
 
 export default function Hero({}: Props) {
   return (
-    <div className='md:flex md:items-center text-center md:justify-between w-full max-w-2xl mt-4 mb-24'>
+    <div className='md:flex md:items-center text-center md:justify-between w-full max-w-2xl mb-24'>
         <div className=''>
         <h1 className="text-5xl font-bold mb-3 text-white leading-none" style={{ textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)' }}>
             THE {""}

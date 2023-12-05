@@ -23,10 +23,11 @@ type Props = {
     average: number | null;
   };
   fetchPrice: () => void;
+  refreshCounter: number;
 } 
 
-export function DynamicTabs({ bech32Address, base16Address, handleAddressConversion, fetchBalance, prices, fetchPrice }: Props) {
-  const [selectedTab, setSelectedTab] = useState('balance');
+export function DynamicTabs({ bech32Address, base16Address, handleAddressConversion, fetchBalance, prices, fetchPrice, refreshCounter }: Props) {
+  const [selectedTab, setSelectedTab] = useState('price');
 
   // Function to handle tab change
   const handleTabChange = (value: string) => {
@@ -34,56 +35,26 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
   };
 
   return (
-    <Tabs defaultValue="balance" className="w-full max-w-2xl"  onValueChange={handleTabChange}>
-
-      <TabsList className="grid w-full grid-cols-2 gap-4">
-        <TabsTrigger 
-          value="balance" 
-          className={selectedTab === "balance" ? "mb-6 py-2 border border-gray-600 rounded-lg bg-gray-400" : "mb-6 hover:bg-gray-600 hover:bg-opacity-20 py-2 border border-gray-800 rounded-lg"}
-        >
-          Get Balance
-        </TabsTrigger>
+    <Tabs defaultValue="price" className="w-full max-w-2xl"  onValueChange={handleTabChange}>
+      
+      <TabsList className="grid w-full grid-cols-2 gap-4 mb-6">  
         <TabsTrigger 
           value="price" 
-          className={selectedTab === "price" ? "mb-6 py-2 border border-gray-600 rounded-lg bg-gray-400" : "mb-6 hover:bg-gray-600 hover:bg-opacity-20 py-2 border border-gray-800 rounded-lg"}
+          className={selectedTab === "price" ? "relative inline-flex min-w-60 whitespace-nowrap overflow-hidden text-lg font-semibold border-2 text-gray-900 rounded-lg group bg-gradient-to-br bg-black from-pink-400 to-red-400 group-hover:from-pink-600 group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" : " hover:bg-gray-600 hover:bg-opacity-20 py-2 h-full w-full border border-gray-800 rounded-lg"}
         >
-          Price
+          <span className={selectedTab === "price" ? "relative w-full h-full transition-all inline-flex items-center justify-center ease-in duration-75 dark:bg-gray-900 rounded-md bg-black/80 group-hover:bg-opacity-0 text-gray-100" : " hover:bg-gray-600 hover:bg-opacity-20 h-full w-full"}>
+            Price
+            </span>
+        </TabsTrigger>
+        <TabsTrigger 
+          value="balance" 
+          className={selectedTab === "balance" ? "relative inline-flex min-w-60 whitespace-nowrap overflow-hidden text-lg font-semibold border-2 text-gray-900 rounded-lg group bg-gradient-to-br bg-black from-pink-400 to-red-400 group-hover:from-pink-600 group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" : " hover:bg-gray-600 hover:bg-opacity-20 py-2 h-full w-full border border-gray-800 rounded-lg"}
+        >
+          <span className={selectedTab === "balance" ? "relative w-full h-full transition-all inline-flex items-center justify-center ease-in duration-75 dark:bg-gray-900 rounded-md bg-black/80 group-hover:bg-opacity-0 text-gray-100" : " hover:bg-gray-600 hover:bg-opacity-20 h-full w-full"}>
+            Get Balance
+            </span>
         </TabsTrigger>
       </TabsList>
-
-
-      <TabsContent value="balance">
-        <Card className='max-w-7xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
-          <CardHeader>
-          <h2 className="text-2xl font-bold tracking-tight text-white">Balance Check:</h2>
-            <Label className='text-gray-200'>Seamlessly check your balance</Label>
-          </CardHeader>
-          <CardContent className="w-full">
-            <Input
-              placeholder='Bech32 Address'
-              value={bech32Address}
-              onChange={(e) => handleAddressConversion(e.target.value)}
-              className='max-w-xl mt-4s'
-              type='text'
-            />
-            <h2 className="text-2xl font-bold tracking-tight text-white mt-6">Base16:</h2>
-            <Label className='text-gray-200'>This is your Base16 address</Label>
-            <Input
-              placeholder='Hex Address'
-              value={base16Address}
-              disabled
-              className='max-w-xl my-4'
-              type='text'
-            />
-          </CardContent>
-          <CardFooter className='my-4 flex items-center jusify-between w-full'>
-            <div className='flex-1'>
-              <span className='text-xl font-light'>Find out your current balance:</span>
-            </div>
-            <BrandedButton text='Get Balance' onClick={() => fetchBalance(base16Address)} />
-          </CardFooter>
-        </Card>
-      </TabsContent>
 
       <TabsContent value="price">
         <Card className='max-w-7xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
@@ -115,8 +86,49 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
             </div>
             <BrandedButton text="Update Prices" onClick={fetchPrice} />
           </CardFooter>
+          <div className="text-gray-400 text-sm text-center w-full">
+            Refreshing in {refreshCounter} seconds
+          </div>
         </Card>
       </TabsContent>
+
+
+      <TabsContent value="balance">
+        <Card className='max-w-7xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
+          <CardHeader>
+          <h2 className="text-2xl font-bold tracking-tight text-white">Balance Check:</h2>
+            <Label className='text-gray-200'>Seamlessly check your balance</Label>
+          </CardHeader>
+          <CardContent className="w-full">
+            <Input
+              placeholder='Bech32 Address'
+              value={bech32Address}
+              onChange={(e) => handleAddressConversion(e.target.value)}
+              className='max-w-xl mt-4s'
+              type='text'
+            />
+
+            <div className="border border-dashed border-gray-400 p-4 rounded-md mt-6">
+              <h2 className="text-xl font-bold tracking-tight text-white">Base16:</h2>
+              <Label className='text-md text-gray-200'>This is your Base16 address</Label>
+              <Input
+                placeholder='Hex Address'
+                value={base16Address}
+                disabled
+                className='max-w-xl my-4'
+                type='text'
+              />
+            </div>
+          </CardContent>
+          <CardFooter className='my-4 flex items-center jusify-between w-full'>
+            <div className='flex-1'>
+              <span className='text-xl font-light'>Find out your current balance:</span>
+            </div>
+            <BrandedButton text='Get Balance' onClick={() => fetchBalance(base16Address)} />
+          </CardFooter>
+        </Card>
+      </TabsContent>
+
     </Tabs>
   )
 }

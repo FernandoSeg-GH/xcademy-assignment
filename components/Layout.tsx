@@ -86,7 +86,14 @@ export default function Layout({ children }: SettingsLayoutProps) {
         background-attachment: fixed;
         overflw-y: scroll;
       }
-    `}</style>
+      `}</style>
+      <footer className='w-full h-24 bg-transparent flex items-center justify-center'>
+        <ul className='flex items-center justify-center gap-x-4'>
+          <li className='text-gray-400 text-sm'>© 2024 XCademy</li>
+          <li className='text-gray-400 text-sm'>Terms of Service</li>
+          <li className='text-gray-400 text-sm'>Privacy Policy</li>
+        </ul>
+      </footer>
     </>
   )
 }

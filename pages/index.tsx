@@ -25,6 +25,7 @@ const Home: NextPage<Props> = ({ }) => {
   const [data, setData] = useState<any[]>([]);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const [userAddress, setUserAddress] = useState<string>('');
+  const [refreshCounter, setRefreshCounter] = useState(10); 
 
   // Traer el precio de XCAD
   const fetchPrice = async () => {
@@ -129,12 +130,35 @@ const Home: NextPage<Props> = ({ }) => {
   };
 
   // Actualizar el precio cada 10 segundos
+  const startRefreshTimer = () => {
+    const timer = setInterval(() => {
+      setRefreshCounter((prevCounter) => {
+        if (prevCounter === 1) {
+          clearInterval(timer);
+          fetchPrice();
+          setRefreshCounter(10);
+        }
+        return prevCounter - 1;
+      });
+    }, 1000);
+  };
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchPrice();
-    }, 120000);
-    return () => clearInterval(interval);
+    fetchPrice(); 
+
+    const timer = setTimeout(() => {
+      startRefreshTimer();
+    }, 10000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (refreshCounter === 0) {
+      setData(data);
+    }
+  }, [refreshCounter, data]);
+
 
   const openToast = (message: string, severity: any = 'info') => {
     setToast({ open: true, message, severity });
@@ -151,7 +175,7 @@ const Home: NextPage<Props> = ({ }) => {
       <main className='w-[90%] md:w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
 
         <Hero />
-
+       
         <DynamicTabs 
           bech32Address={bech32Address} 
           base16Address={base16Address} 
@@ -159,6 +183,7 @@ const Home: NextPage<Props> = ({ }) => {
           fetchBalance={fetchBalance} 
           prices={prices} 
           fetchPrice={fetchPrice} 
+          refreshCounter={refreshCounter}
         />
 
       {data && <PriceChart data={data} />}
