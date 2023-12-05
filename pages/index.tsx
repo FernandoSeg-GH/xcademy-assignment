@@ -3,17 +3,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto';
 import { BrowserProvider, ethers, JsonRpcSigner, Log } from "ethers";
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card } from '../components/ui/card';
 import Hero from '../components/Hero';
-import CoinGecko from '../components/icons/CoinGecko';
-import ZilStream from '../components/icons/ZilStream';
-import CryptoRanks from '../components/icons/CryptoRanks';
-import BrandedButton from '../components/BrandedButton';
-import { formatPrice } from '../utils/utils';
-import PriceButton from '../components/PriceButton';
 import { DynamicTabs } from '../components/DynamicTabs';
+import PriceChart from '../components/PriceChart';
 
 type Props = {}
 
@@ -25,9 +17,12 @@ const Home: NextPage<Props> = ({ }) => {
     coingecko: null,
     zilStream: null,
     cryptoRank: null,
-    average: null
+    average: null,
+    last7DaysCryptoRankPrices: [],
   });
   const [balance, setBalance] = useState<string | null>(null);
+  const [dailyBalance, setDailyBalance] = useState<string | null>(null);
+  const [data, setData] = useState<any[]>([]);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const [userAddress, setUserAddress] = useState<string>('');
 
@@ -37,6 +32,9 @@ const Home: NextPage<Props> = ({ }) => {
       const response = await fetch('/api/price');
       const data = await response.json();
       setPrices(data.prices);
+      setDailyBalance(data?.prices?.last7DaysCryptoRankPrices);
+      setData(data?.prices?.last7DaysCryptoRankPrices); 
+      console.log("Daily Balance", dailyBalance);
     } catch (error) {
       console.error('Failed to fetch prices');
       openToast('Failed to fetch prices', 'error');
@@ -47,6 +45,16 @@ const Home: NextPage<Props> = ({ }) => {
   useEffect(() => {
     fetchPrice(); // 
   }, []);
+
+  useEffect(() => {
+    if (prices.last7DaysCryptoRankPrices) {
+      const chartData = prices.last7DaysCryptoRankPrices.map((price, index) => ({
+        day: `Day ${index + 1}`,
+        price: price
+      }));
+      setData(chartData);
+    }
+  }, [prices, dailyBalance]);
 
   // check if metamask is installed
   const isMetaMaskInstalled = () => {
@@ -134,7 +142,7 @@ const Home: NextPage<Props> = ({ }) => {
 
   return (
 
-    <div className='w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
+    <div className='w-[90%] md:w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
       <Head>
         <title>XCademy Price Tracker</title>
         <meta name="description" content="Price Tracker & Address Converter" />
@@ -151,6 +159,8 @@ const Home: NextPage<Props> = ({ }) => {
         prices={prices} 
         fetchPrice={fetchPrice} 
       />
+
+     <PriceChart data={data} />
 
     </div>
   )

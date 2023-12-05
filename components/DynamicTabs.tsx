@@ -66,7 +66,7 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
               placeholder='Bech32 Address'
               value={bech32Address}
               onChange={(e) => handleAddressConversion(e.target.value)}
-              className='max-w-xl'
+              className='max-w-xl mt-4s'
               type='text'
             />
             <h2 className="text-2xl font-bold tracking-tight text-white mt-6">Base16:</h2>
@@ -94,7 +94,7 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
             <h2 className="text-2xl font-bold tracking-tight text-white">XCAD Prices</h2>
           </CardHeader>
           <CardContent className="w-full">
-            <div className='grid grid-cols-3 gap-x-4 mt-8 mb-6' >
+            <div className='grid grid-cols-1 gap-y-4 md:grid-cols-3 gap-x-4 mt-8 mb-6' >
               <div className='flex flex-col items-center justify-start'>
                 <CoinGecko/>
                 <PriceButton content={<span className='text-xl font-bold'>{prices.coingecko ? `$ ${formatPrice(prices.coingecko)}` : 'Loading...'}</span>}  /> 

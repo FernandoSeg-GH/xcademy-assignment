@@ -28,7 +28,7 @@ export const Navbar = ({
             <img src="https://www.xcademy.com/defc893fd64646d3b86cab2b41ca55a6.png" alt="logo" className='hidden md:block h-8 w-auto' />
         </div>
         <div>
-          <div className='hidden md:flex first-letter:flex items-center justify-between gap-x-6'>
+          <div className='hidden md:flex first-letter:flex items-center justify-between font-light gap-x-6'>
               <Link href={`/`}>
                 Home
               </Link>

@@ -37,21 +37,25 @@ export default async function handler(
 
     const averagePrice = (coingeckoPrice + zilStreamPrice + newestCryptoRankPrice) / 3;
 
+    const last7DaysCryptoRankPrices = cryptoRankPricesArray.slice(cryptoRankPricesArray.length - 7, cryptoRankPricesArray.length);
+
     console.log({
       prices: {
-        coingecko: coingeckoPrice as any,
-        zilStream: zilStreamPrice as any,
-        cryptoRank: newestCryptoRankPrice as any,
-        average: averagePrice
+        coingecko: coingeckoPrice as number,
+        zilStream: zilStreamPrice as number,
+        cryptoRank: newestCryptoRankPrice as number,
+        average: averagePrice as number,
+        last7DaysCryptoRankPrices: last7DaysCryptoRankPrices as number[]
       } as any
     })
 
     res.status(200).json({
       prices: {
-        coingecko: coingeckoPrice as any,
-        zilStream: zilStreamPrice as any,
-        cryptoRank: newestCryptoRankPrice as any,
-        average: averagePrice
+        coingecko: coingeckoPrice as number,
+        zilStream: zilStreamPrice as number,
+        cryptoRank: newestCryptoRankPrice as number,
+        average: averagePrice as number,
+        last7DaysCryptoRankPrices: last7DaysCryptoRankPrices as number[]
       } as any
     });
   } catch (error:any) {
