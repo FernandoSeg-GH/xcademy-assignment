@@ -10,7 +10,6 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@mui/material": "^5.4.2",
     "@reduxjs/toolkit": "^2.0.1",
     "@zilliqa-js/crypto": "^3.3.4",
     "@zilliqa-js/util": "^3.3.4",

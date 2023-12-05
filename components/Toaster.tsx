@@ -1,8 +1,5 @@
 import React from 'react'
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import { useState } from 'react';
-import { Button } from '@mui/material';
 
 type ToasterProps = {
     open: boolean;
@@ -21,10 +18,13 @@ export default function Toaster({ open, message, severity }: ToasterProps) {
     };
 
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseToast}>
+        <div>
+
+        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseToast}>
             <Alert onClose={handleCloseToast} severity={severity as any} sx={{ width: '100%' }}>
                 <p>{message}</p>
             </Alert>
-        </Snackbar>
+        </Snackbar> */}
+        </div>
     )
 }
