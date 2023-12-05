@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto';
-import { BrowserProvider, ethers, JsonRpcSigner } from "ethers";
+import { BrowserProvider, ethers, JsonRpcSigner, Log } from "ethers";
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card } from '../components/ui/card';
 import Hero from '../components/Hero';
+import CoinGecko from '../components/icons/CoinGecko';
+import ZilStream from '../components/icons/ZilStream';
+import CryptoRanks from '../components/icons/CryptoRanks';
+import BrandedButton from '../components/BrandedButton';
 
 type Props = {}
 
@@ -153,34 +157,38 @@ const Home: NextPage<Props> = ({ }) => {
             placeholder='Hex Address'
             value={base16Address}
             disabled
-            className='max-w-xl mt-4'
+            className='max-w-xl my-4'
             type='text'
           />
 
-          <div className='bg-red-500 mt-6 max-w-xl'>
-            <button onClick={fetchPrice}>Get CoinGecko Price</button>
-            <button onClick={() => fetchBalance(base16Address)}>Get Balance</button>
-
-          </div>
+          <BrandedButton text='Get Balance' onClick={() => fetchBalance(base16Address)} />
         </Card>
 
         <Card className='max-w-xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
           <h2 className="text-2xl font-bold tracking-tight text-white">XCAD Price:</h2>
           <Label className='text-gray-200'>XCAD is currently trading at:</Label>
-          <div className='flex-1 flex flex-col items-center justify-center p-4'>
-            <div>
-              {prices.coingecko && <p>Coingecko Price: {prices.coingecko}</p>}
-              {prices.zilStream && <p>ZilStream Price: {prices.zilStream}</p>}
-              {prices.cryptoRank && <p>CryptoRank Price: {prices.cryptoRank}</p>}
-              {prices.average && <p>Average Price: {prices.average}</p>}
+          <div className='grid grid-cols-3 gap-4 mt-4'>
+            <div className='flex flex-col items-center justify-center'>
+              <CoinGecko/>
+              <span className='text-2xl font-bold mt-2'>{prices.coingecko ? `$${prices.coingecko}` : 'Loading...'}</span>
             </div>
-
-            <div className='bg-red-500 mt-6 max-w-xl'>
-              <button onClick={fetchPrice}>Get CoinGecko Price</button>
-              <button onClick={() => fetchBalance(base16Address)}>Get Balance</button>
+            <div className='flex flex-col items-center justify-center'>
+              <ZilStream/>
+              <span className='text-2xl font-bold mt-2'>{prices.zilStream ? `$${prices.zilStream}` : 'Loading...'}</span>
             </div>
+            <div className='flex flex-col items-center justify-center'>
+              <CryptoRanks/>
+              <span className='text-2xl font-bold mt-2'>{prices.cryptoRank ? `$${prices.cryptoRank}` : 'Loading...'}</span>
+            </div>  
           </div>
+          <div className='my-4'>
+            <span className='text-2xl font-bold'>Average:</span>
+            <span className='text-2xl font-bold ml-2'>{prices.average ? `$${prices.average}` : 'Loading...'}</span>
+          </div>
+          <BrandedButton text="Get Price" onClick={fetchPrice} />
         </Card>
+
+
       </div>
     </div>
   )
@@ -192,3 +200,4 @@ export async function getServerSideProps() {
   };
 }
 export default Home;
+
