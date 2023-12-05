@@ -87,7 +87,7 @@ export function DynamicTabs({ bech32Address, base16Address, handleAddressConvers
             <BrandedButton text="Update Prices" onClick={fetchPrice} />
           </CardFooter>
           <div className="text-gray-400 text-sm text-center w-full">
-            Refreshing in {refreshCounter} seconds
+            Refreshing in 5 minutes
           </div>
         </Card>
       </TabsContent>

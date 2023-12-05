@@ -2,7 +2,7 @@ import type { Config } from "@jest/types";
 export default async (): Promise<Config.InitialOptions> => {
   return {
     preset: "ts-jest",
-
+    testEnvironment: "jsdom",
     globals: {
       "ts-jest": {
         tsconfig: "tsconfig.test.json",
@@ -22,4 +22,5 @@ export default async (): Promise<Config.InitialOptions> => {
       "slices/(.*)": "<rootDir>/slices/$1",
     },
   };
+  
 };

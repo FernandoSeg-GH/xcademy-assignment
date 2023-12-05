@@ -172,7 +172,7 @@ const Home: NextPage<Props> = ({ }) => {
       </Head>
 
       <main className='w-[90%] md:w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
-
+        <p className=''>Xcademy Assignment</p>
         <Hero />
        
         <DynamicTabs 
