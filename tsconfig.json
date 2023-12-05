@@ -16,7 +16,7 @@
     "incremental": true,
     "types": ["@testing-library/jest-dom"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", "globals.d.ts"],  
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js", "globals.d.ts", "./jest.setup.ts"],  
   "exclude": ["node_modules"],
   "paths": {
     "@/*": ["src/*"],

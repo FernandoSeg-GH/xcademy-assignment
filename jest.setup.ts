@@ -1,7 +1,2 @@
-// /** @type {import('jest').Config} */
-// const config = {
-//     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],   
-//   };
-  
-//   module.exports = config;
-import '@testing-library/jest-dom';
+// Learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom'

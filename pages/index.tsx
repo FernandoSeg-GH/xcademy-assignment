@@ -57,7 +57,7 @@ const Home: NextPage<Props> = ({ }) => {
     }
   }, [prices, dailyBalance]);
 
-  // check if metamask is installed
+  // chequear si metamask está instalado
   const isMetaMaskInstalled = () => {
     const { ethereum } = window as any;
     if (!ethereum) {
