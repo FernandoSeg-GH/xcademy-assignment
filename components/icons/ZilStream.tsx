@@ -6,7 +6,7 @@ export default function ZilStream({ }: Props) {
     return (
         <svg
             version="1.1" id="layer" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-            height="140" width="160"
+            height="80" width="160"
             viewBox="0 0 652 652"
         >
             <path fill='#fff' className="st0" d="M105.3,267.6c-25.9,0-50.7,4.9-73.5,13.9c14.1-26.1,41.7-43.9,73.5-43.9c18.5,0,35.6,6,49.4,16.2

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import { MobileSidebar } from './MobileSidebar';
 import { cn } from '../utils/utils';
+import BrandedButton from './BrandedButton';
 
 
 interface NavbarProps {
@@ -36,11 +37,7 @@ export const Navbar = ({
                 About
               </Link>
               
-              <button className="w-32 bg-purple-700 text-white font-bold py-2 px-4 rounded-full relative overflow-hidden group before:absolute before:inset-0 before:-m-0.5 before:rounded-full before:bg-gradient-to-r before:from-pink-500 before:to-yellow-500 before:blur">
-                <span className="relative z-10">
-                  Buy XCAD
-                </span>
-              </button>
+              <BrandedButton text='Buy XCAD' />
           </div>
         </div>
       </div>

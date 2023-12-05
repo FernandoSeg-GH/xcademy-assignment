@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const formatPrice = (number:number, defaultMessage = 'Loading...') => {
   if (typeof number === 'number') {
-    return number.toFixed(2);
+    return number.toFixed(4);
   }
   return defaultMessage;
 };

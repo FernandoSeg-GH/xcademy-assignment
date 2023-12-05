@@ -11,6 +11,9 @@ import CoinGecko from '../components/icons/CoinGecko';
 import ZilStream from '../components/icons/ZilStream';
 import CryptoRanks from '../components/icons/CryptoRanks';
 import BrandedButton from '../components/BrandedButton';
+import { formatPrice } from '../utils/utils';
+import PriceButton from '../components/PriceButton';
+import { DynamicTabs } from '../components/DynamicTabs';
 
 type Props = {}
 
@@ -131,7 +134,7 @@ const Home: NextPage<Props> = ({ }) => {
 
   return (
 
-    <div className='w-full mx-auto max-w-7xl h-full text-white flex flex-col items-start  justify-between'>
+    <div className='w-full mx-auto max-w-7xl h-full text-white flex flex-col items-center justify-between pb-24'>
       <Head>
         <title>XCademy Price Tracker</title>
         <meta name="description" content="Price Tracker & Address Converter" />
@@ -140,56 +143,15 @@ const Home: NextPage<Props> = ({ }) => {
 
       <Hero />
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full pb-24'>
-        <Card className='max-w-xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
-          <h2 className="text-2xl font-bold tracking-tight text-white">Address:</h2>
-          <Label className='text-gray-200'>Seamlessly check your balance</Label>
-          <Input
-            placeholder='Bech32 Address'
-            value={bech32Address}
-            onChange={(e) => handleAddressConversion(e.target.value)}
-            className='max-w-xl mt-4'
-            type='text'
-          />
-          <h2 className="text-2xl font-bold tracking-tight text-white mt-6">Base16:</h2>
-          <Label className='text-gray-200'>This is your Base16 address</Label>
-          <Input
-            placeholder='Hex Address'
-            value={base16Address}
-            disabled
-            className='max-w-xl my-4'
-            type='text'
-          />
+      <DynamicTabs 
+        bech32Address={bech32Address} 
+        base16Address={base16Address} 
+        handleAddressConversion={handleAddressConversion} 
+        fetchBalance={fetchBalance} 
+        prices={prices} 
+        fetchPrice={fetchPrice} 
+      />
 
-          <BrandedButton text='Get Balance' onClick={() => fetchBalance(base16Address)} />
-        </Card>
-
-        <Card className='max-w-xl border-gray-600 bg-transparent px-6 flex-1 flex flex-col items-start justify-between w-full py-8 text-gray-100 backdrop-blur-sm'>
-          <h2 className="text-2xl font-bold tracking-tight text-white">XCAD Price:</h2>
-          <Label className='text-gray-200'>XCAD is currently trading at:</Label>
-          <div className='grid grid-cols-3 gap-4 mt-4'>
-            <div className='flex flex-col items-center justify-center'>
-              <CoinGecko/>
-              <span className='text-2xl font-bold mt-2'>{prices.coingecko ? `$${prices.coingecko}` : 'Loading...'}</span>
-            </div>
-            <div className='flex flex-col items-center justify-center'>
-              <ZilStream/>
-              <span className='text-2xl font-bold mt-2'>{prices.zilStream ? `$${prices.zilStream}` : 'Loading...'}</span>
-            </div>
-            <div className='flex flex-col items-center justify-center'>
-              <CryptoRanks/>
-              <span className='text-2xl font-bold mt-2'>{prices.cryptoRank ? `$${prices.cryptoRank}` : 'Loading...'}</span>
-            </div>  
-          </div>
-          <div className='my-4'>
-            <span className='text-2xl font-bold'>Average:</span>
-            <span className='text-2xl font-bold ml-2'>{prices.average ? `$${prices.average}` : 'Loading...'}</span>
-          </div>
-          <BrandedButton text="Get Price" onClick={fetchPrice} />
-        </Card>
-
-
-      </div>
     </div>
   )
 }
